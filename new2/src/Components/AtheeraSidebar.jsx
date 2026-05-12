@@ -41,6 +41,8 @@ import ReportsPage from "./Reportspage";
 import Integrations from "./Integrations"
 import ForecastingPage from "./Forecastingpage";
 import DataTrustDashboard from "./Datatrustdashboard";
+import ProfilePage, { SidebarProfileFooter } from "./ProfilePage";
+import AuditLog from "./Auditlog";
 const DRAWER_WIDTH = 260;
 const COLLAPSED_WIDTH = 64;
 
@@ -116,6 +118,7 @@ const SidebarToggleIcon = ({ flipped = false }) => (
 );
 
 export default function AtheeraSidebar() {
+  const [profileOpen, setProfileOpen] = useState(false);
   const [open, setOpen] = useState(true);
   const [expandedSections, setExpandedSections] = useState({ work: true });
   const [activeItem, setActiveItem] = useState("command-center");
@@ -368,14 +371,11 @@ export default function AtheeraSidebar() {
             ))}
           </List>
 
-          {/* Footer */}
-          {open && (
-            <Box sx={{ px: 2, py: 2, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-              <Typography sx={{ fontSize: 11, color: "#333", letterSpacing: "0.05em" }}>
-                ATHEERA v2.0
-              </Typography>
-            </Box>
-          )}
+          {/* Footer — profile */}
+          <SidebarProfileFooter open={open} onOpen={() => setProfileOpen(true)} />
+
+          {/* Profile modal — rendered outside the sidebar so it overlays everything */}
+          <ProfilePage open={profileOpen} onClose={() => setProfileOpen(false)} />
         </Box>
 
         {/* Main Content */}
@@ -390,6 +390,9 @@ export default function AtheeraSidebar() {
           {activeItem === "integrations" && <Integrations />}
           {activeItem === "forecasting" && <ForecastingPage />}
           {activeItem === "data-trust" && <DataTrustDashboard />}
+          {activeItem === "audit-log" && <AuditLog />}
+
+
         </Box>
       </Box>
     </ThemeProvider>
