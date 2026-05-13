@@ -71,6 +71,7 @@ const PRODUCTS = [
   {
     id: 1, name: "Cotton tee navy L", code: "CT-NAVY-L", cat: "Apparel",
     stock: 38, inTransit: 240, velNum: 6, vel: "6 / day",
+    costPrice: 7.00, sellingPrice: 24.99,
     daysOfCover: 6.3, autonomy: "Full auto", accuracy: "9 / 10", pct: 90,
     stockColor: "#4ade80", stockStatus: "ok", trend: "up", sparkSeed: 1001,
     supplier: "Vendor A", leadTime: "14d", reorderPoint: 50, reorderQty: 200,
@@ -88,6 +89,7 @@ const PRODUCTS = [
   {
     id: 2, name: "Cotton tee navy M", code: "CT-NAVY-M", cat: "Apparel",
     stock: 62, inTransit: 0, velNum: 5, vel: "5 / day",
+    costPrice: 7.00, sellingPrice: 24.99,
     daysOfCover: 12.4, autonomy: "Full auto", accuracy: "8 / 10", pct: 80,
     stockColor: "#4ade80", stockStatus: "ok", trend: "up", sparkSeed: 2002,
     supplier: "Vendor A", leadTime: "14d", reorderPoint: 45, reorderQty: 180,
@@ -104,6 +106,7 @@ const PRODUCTS = [
   {
     id: 3, name: "Hoodie black M", code: "HD-BLK-M", cat: "Apparel",
     stock: 12, inTransit: 100, velNum: 9, vel: "9 / day",
+    costPrice: 22.00, sellingPrice: 64.99,
     daysOfCover: 1.3, autonomy: "Supervised", accuracy: "7 / 10", pct: 70,
     stockColor: "#f97316", stockStatus: "low", trend: "down", sparkSeed: 3003,
     supplier: "Vendor B", leadTime: "21d", reorderPoint: 80, reorderQty: 300,
@@ -120,6 +123,7 @@ const PRODUCTS = [
   {
     id: 4, name: "Beanie cream OS", code: "BN-CRM-OS", cat: "Accessories",
     stock: 140, inTransit: 0, velNum: 2, vel: "2 / day",
+    costPrice: 5.50, sellingPrice: 18.99,
     daysOfCover: 70, autonomy: "Full auto", accuracy: "10/10", pct: 100,
     stockColor: "#4ade80", stockStatus: "ok", trend: "flat", sparkSeed: 4004,
     supplier: "Vendor C", leadTime: "10d", reorderPoint: 30, reorderQty: 100,
@@ -136,6 +140,7 @@ const PRODUCTS = [
   {
     id: 5, name: "Tote canvas natural", code: "TT-NAT-OS", cat: "Accessories",
     stock: 44, inTransit: 60, velNum: 1, vel: "1 / day",
+    costPrice: 8.25, sellingPrice: 29.99,
     daysOfCover: 44, autonomy: "Learning", accuracy: "—28d only", pct: null,
     stockColor: "#facc15", stockStatus: "learning", trend: "up", sparkSeed: 5005,
     supplier: "Vendor C", leadTime: "12d", reorderPoint: 20, reorderQty: 80,
@@ -150,6 +155,7 @@ const PRODUCTS = [
   {
     id: 6, name: "Cap dad navy", code: "CP-NAV-OS", cat: "Accessories",
     stock: 90, inTransit: 0, velNum: 3, vel: "3 / day",
+    costPrice: 9.00, sellingPrice: 32.99,
     daysOfCover: 30, autonomy: "Manual", accuracy: "N/A", pct: null,
     stockColor: "#4ade80", stockStatus: "ok", trend: "flat", sparkSeed: 6006,
     supplier: "Vendor B", leadTime: "18d", reorderPoint: 40, reorderQty: 120,
@@ -299,43 +305,8 @@ function OverviewTab({ p, autonomy, setAutonomy }) {
         </Box>
       </Box>
 
-      <Box sx={{ bgcolor: "#0a1a0f", border: "1px solid #166534", borderRadius: 1.5, p: 2, mb: 3 }}>
-        <Typography sx={{ fontSize: 11, color: "#555", letterSpacing: "0.1em", mb: 1.5 }}>ARIA'S AUTONOMY ON THIS SKU</Typography>
-        <RadioGroup value={autonomy} onChange={(e) => setAutonomy(e.target.value)}>
-          {[
-            { val: "Full auto", desc: "Aria acts on all decisions" },
-            { val: "Supervised", desc: "Aria asks before acting" },
-            { val: "Manual", desc: "Aria suggests, never acts" },
-          ].map(({ val, desc }) => (
-            <Box key={val} sx={{ display: "flex", alignItems: "center", gap: 0.5, mb: 0.25 }}>
-              <Radio value={val} size="small"
-                sx={{ p: 0.25, color: "#333", "&.Mui-checked": { color: "#4ade80" } }} />
-              <Typography sx={{ fontSize: 13, color: autonomy === val ? "#4ade80" : "#666" }}>{val}</Typography>
-              <Typography sx={{ fontSize: 12, color: "#444" }}>· {desc}</Typography>
-            </Box>
-          ))}
-        </RadioGroup>
-      </Box>
 
-      {total > 0 && (
-        <Box sx={{ bgcolor: "#111", border: "1px solid #1e1e1e", borderRadius: 1.5, p: 1.5 }}>
-          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
-            <Typography sx={{ fontSize: 11, color: "#555" }}>ARIA'S TRACK RECORD</Typography>
-            <Typography sx={{ fontSize: 13, color: "#4ade80" }}>
-              {correct}/{total} correct
-            </Typography>
-          </Box>
-          <DecisionDots decisions={p.decisions} />
-          <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
-            {[["#4ade80", "Correct"], ["#ef4444", "Incorrect"], ["#f97316", "Overridden"], ["#444", "Learning"]].map(([c, label]) => (
-              <Box key={label} sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <Box sx={{ width: 8, height: 8, borderRadius: 0.25, bgcolor: c }} />
-                <Typography sx={{ fontSize: 10, color: "#555" }}>{label}</Typography>
-              </Box>
-            ))}
-          </Box>
-        </Box>
-      )}
+
     </Box>
   );
 }
@@ -643,73 +614,104 @@ export default function ProductsPage() {
           </Box>
         </Box>
 
-        {/* Table */}
-        <Box sx={{ flex: 1, overflow: "auto" }}>
-          <Table stickyHeader size="small">
-            <TableHead>
-              <TableRow sx={{ "& th": { bgcolor: "#0a0a0a" } }}>
-                <TableCell sx={{ width: "30%" }}>PRODUCT</TableCell>
-                <TableCell>STOCK</TableCell>
-                <TableCell>30D VEL</TableCell>
-                <TableCell>AUTONOMY</TableCell>
-                <TableCell>ACCURACY</TableCell>
-                <TableCell>TREND</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filtered.map(p => (
-                <TableRow key={p.id} onClick={() => setSelected(p)}
-                  sx={{
-                    cursor: "pointer",
-                    "&:hover": { bgcolor: "#0f0f0f" },
-                    "& td": { borderColor: "#141414" },
-                  }}>
-                  <TableCell>
-                    <Typography sx={{ fontSize: 12, color: "#e0e0e0", fontWeight: 400 }}>{p.name}</Typography>
-                    <Typography sx={{ fontSize: 10, color: "#444", mt: 0.25 }}>{p.code} · {p.cat}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography sx={{ fontSize: 12, color: p.stockStatus === "low" ? "#f97316" : "#e0e0e0" }}>
-                      {p.stock}u
-                    </Typography>
-                    <Box sx={{ width: 36, height: 3, borderRadius: 0.5, bgcolor: p.stockColor, mt: 0.5, opacity: 0.85 }} />
-                  </TableCell>
-                  <TableCell sx={{ color: "#e0e0e0", fontSize: 12 }}>{p.vel}</TableCell>
-                  <TableCell><AutonChip label={p.autonomy} /></TableCell>
-                  <TableCell>
-                    {p.pct != null ? (
-                      <Typography sx={{ fontSize: 12, color: p.pct >= 90 ? "#4ade80" : p.pct >= 70 ? "#facc15" : "#f97316" }}>
-                        {p.accuracy} ({p.pct}%)
-                      </Typography>
-                    ) : (
-                      <Typography sx={{ fontSize: 11, color: "#444" }}>{p.accuracy}</Typography>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Sparkline seed={p.sparkSeed} trend={p.trend} width={80} height={28} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+{/* Table */}
+<Box sx={{ flex: 1, overflow: "auto" }}>
+  <Table stickyHeader size="small">
+    <TableHead>
+      <TableRow sx={{ "& th": { bgcolor: "#0a0a0a" } }}>
+        <TableCell sx={{ width: "28%" }}>PRODUCT</TableCell>
+        <TableCell>STOCK</TableCell>
+        <TableCell>IN TRANSIT</TableCell>
+        <TableCell>30D VEL</TableCell>
+        <TableCell>COST</TableCell>
+        <TableCell>SELL</TableCell>
+        <TableCell>MARGIN</TableCell>
+        <TableCell>TREND</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {filtered.map(p => {
+        const margin = (((p.sellingPrice - p.costPrice) / p.sellingPrice) * 100).toFixed(0);
+        return (
+          <TableRow key={p.id} onClick={() => setSelected(p)}
+            sx={{
+              cursor: "pointer",
+              "&:hover": { bgcolor: "#0f0f0f" },
+              "& td": { borderColor: "#141414" },
+            }}>
 
-          <Box sx={{ px: 2, py: 1.5, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Typography sx={{ fontSize: 11, color: "#444" }}>
-              Showing {filtered.length} of {totalSKUs}
-            </Typography>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-              {["‹", 1, 2, 3, "›"].map((n, i) => (
-                <Box key={i} sx={{
-                  width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center",
-                  borderRadius: 0.75, fontSize: 11, cursor: "pointer",
-                  bgcolor: n === 1 ? "#1e1e1e" : "transparent",
-                  color: n === 1 ? "#f0f0f0" : "#444",
-                  "&:hover": { bgcolor: "#1a1a1a", color: "#888" },
-                }}>{n}</Box>
-              ))}
-            </Box>
-          </Box>
-        </Box>
+            {/* Product */}
+            <TableCell>
+              <Typography sx={{ fontSize: 12, color: "#e0e0e0" }}>{p.name}</Typography>
+              <Typography sx={{ fontSize: 10, color: "#444", mt: 0.25 }}>{p.code} · {p.cat}</Typography>
+            </TableCell>
+
+            {/* Stock */}
+            <TableCell>
+              <Typography sx={{ fontSize: 12, color: p.stockStatus === "low" ? "#f97316" : "#e0e0e0" }}>
+                {p.stock}u
+              </Typography>
+              <Box sx={{ width: 28, height: 2.5, borderRadius: 0.5, bgcolor: p.stockColor, mt: 0.5, opacity: 0.8 }} />
+            </TableCell>
+
+            {/* In Transit */}
+            <TableCell>
+              <Typography sx={{ fontSize: 12, color: p.inTransit > 0 ? "#60a5fa" : "#333" }}>
+                {p.inTransit > 0 ? `${p.inTransit}u` : "—"}
+              </Typography>
+              {p.inTransit > 0 && (
+                <Typography sx={{ fontSize: 10, color: "#444", mt: 0.25 }}>{p.lastPO.eta}</Typography>
+              )}
+            </TableCell>
+
+            {/* 30D Velocity */}
+            <TableCell sx={{ fontSize: 12, color: "#e0e0e0" }}>{p.vel}</TableCell>
+
+            {/* Cost Price */}
+            <TableCell sx={{ fontSize: 12, color: "#888" }}>${p.costPrice.toFixed(2)}</TableCell>
+
+            {/* Selling Price */}
+            <TableCell sx={{ fontSize: 12, color: "#e0e0e0" }}>${p.sellingPrice.toFixed(2)}</TableCell>
+
+            {/* Margin */}
+            <TableCell>
+              <Typography sx={{
+                fontSize: 12,
+                color: margin >= 70 ? "#4ade80" : margin >= 50 ? "#facc15" : "#f97316",
+              }}>
+                {margin}%
+              </Typography>
+            </TableCell>
+
+            {/* Trend sparkline */}
+            <TableCell>
+              <Sparkline seed={p.sparkSeed} trend={p.trend} width={80} height={28} />
+            </TableCell>
+
+          </TableRow>
+        );
+      })}
+    </TableBody>
+  </Table>
+
+  {/* Pagination */}
+  <Box sx={{ px: 2, py: 1.5, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <Typography sx={{ fontSize: 11, color: "#444" }}>
+      Showing {filtered.length} of {totalSKUs}
+    </Typography>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+      {["‹", 1, 2, 3, "›"].map((n, i) => (
+        <Box key={i} sx={{
+          width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center",
+          borderRadius: 0.75, fontSize: 11, cursor: "pointer",
+          bgcolor: n === 1 ? "#1e1e1e" : "transparent",
+          color: n === 1 ? "#f0f0f0" : "#444",
+          "&:hover": { bgcolor: "#1a1a1a", color: "#888" },
+        }}>{n}</Box>
+      ))}
+    </Box>
+  </Box>
+</Box>
 
         {/* Modal */}
         {selected && <ProductModal product={selected} onClose={() => setSelected(null)} />}

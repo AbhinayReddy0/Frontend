@@ -412,7 +412,6 @@ const DecisionCard = ({ decision, isSelected, onSelect, onOpen }) => (
             <UrgencyBadge label={decision.urgency} />
             <Box sx={{ ml: "auto" }}>
               <IconButton size="small" sx={{ color: "#444", p: 0.3, "&:hover": { color: "#fff" } }}>
-                <ChevronDownIcon sx={{ fontSize: 16 }} />
               </IconButton>
             </Box>
           </Box>

@@ -1,4 +1,4 @@
-import { Box, Typography, Chip } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const DECISIONS = [
@@ -36,12 +36,12 @@ const CAPITAL = [
 
 export default function DecisionsSummary({ onOpenQueue }) {
   return (
-    <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 3 }}>
 
-      {/* ── Left: Decisions ── */}
+      {/* ── Top: Decisions (full width) ── */}
       <Box
         sx={{
-          flex: 1.4,
+          width: "100%",
           bgcolor: "#111",
           border: "1px solid #222",
           borderRadius: "14px",
@@ -78,7 +78,7 @@ export default function DecisionsSummary({ onOpenQueue }) {
 
         {/* Decision rows */}
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          {DECISIONS.map((d, i) => (
+          {DECISIONS.map((d) => (
             <Box
               key={d.id}
               sx={{
@@ -91,7 +91,6 @@ export default function DecisionsSummary({ onOpenQueue }) {
                 alignItems: "center",
                 justifyContent: "space-between",
                 gap: 1.5,
-                position: "relative",
               }}
             >
               <Box sx={{ flex: 1, minWidth: 0 }}>
@@ -102,7 +101,6 @@ export default function DecisionsSummary({ onOpenQueue }) {
                   {d.sub}
                 </Typography>
               </Box>
-
 
               {/* Confidence */}
               <Box
@@ -133,10 +131,10 @@ export default function DecisionsSummary({ onOpenQueue }) {
         </Box>
       </Box>
 
-      {/* ── Right: Capital at Work ── */}
+      {/* ── Bottom: Capital at Work (full width) ── */}
       <Box
         sx={{
-          flex: 1,
+          width: "100%",
           bgcolor: "#111",
           border: "1px solid #222",
           borderRadius: "14px",
@@ -146,36 +144,45 @@ export default function DecisionsSummary({ onOpenQueue }) {
         <Typography sx={{ fontSize: 11, fontWeight: 700, color: "#444", letterSpacing: "0.1em", mb: 1.5 }}>
           CAPITAL AT WORK
         </Typography>
-        <Typography sx={{ fontSize: 36, fontWeight: 700, color: "#fff", lineHeight: 1, mb: 0.5 }}>
-          $48,200
-        </Typography>
-        <Typography sx={{ fontSize: 12, color: "#555", mb: 3 }}>
-          committed by Aria
-        </Typography>
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 0 }}>
-          {CAPITAL.map((item, i) => (
-            <Box
-              key={i}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                py: 1.5,
-                borderTop: i === 0 ? "1px solid #1e1e1e" : "none",
-                borderBottom: "1px solid #1e1e1e",
-              }}
-            >
-              <Typography sx={{ fontSize: 13, color: "#888" }}>
-                {item.label}
-              </Typography>
-              <Typography sx={{ fontSize: 13, fontWeight: 600, color: "#e8e8e8" }}>
-                {item.value}
-              </Typography>
-            </Box>
-          ))}
+        {/* Top row: big number + breakdown side by side */}
+        <Box sx={{ display: "flex", alignItems: "flex-start", gap: 4 }}>
+          {/* Left: total */}
+          <Box sx={{ flexShrink: 0 }}>
+            <Typography sx={{ fontSize: 36, fontWeight: 700, color: "#fff", lineHeight: 1, mb: 0.5 }}>
+              $48,200
+            </Typography>
+            <Typography sx={{ fontSize: 12, color: "#555" }}>
+              committed by Aria
+            </Typography>
+          </Box>
+
+          {/* Right: breakdown stretched across remaining width */}
+          <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 0 }}>
+            {CAPITAL.map((item, i) => (
+              <Box
+                key={i}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  py: 1,
+                  borderTop: i === 0 ? "1px solid #1e1e1e" : "none",
+                  borderBottom: "1px solid #1e1e1e",
+                }}
+              >
+                <Typography sx={{ fontSize: 13, color: "#888" }}>
+                  {item.label}
+                </Typography>
+                <Typography sx={{ fontSize: 13, fontWeight: 600, color: "#e8e8e8" }}>
+                  {item.value}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
         </Box>
       </Box>
+
     </Box>
   );
 }

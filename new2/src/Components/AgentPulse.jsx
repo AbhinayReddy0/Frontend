@@ -6,39 +6,51 @@ const AGENTS = [
   { id: "po", name: "PO agent", version: "v2" },
 ];
 
+const CARD_HEIGHT = 200;
+
 export default function AgentPulse() {
   return (
     <Box sx={{ mb: 3 }}>
       <Typography
-        sx={{ fontSize: 13, fontWeight: 700, color: "#FFFFFF", letterSpacing: "0.1em", mb: 1.5 }}
+        sx={{
+          fontSize: 12,
+          fontWeight: 700,
+          color: "#888",
+          letterSpacing: "0.08em",
+          mb: 1.5,
+          textTransform: "uppercase",
+        }}
       >
-        AGENT PULSE
+        Agent Pulse
       </Typography>
 
-      <Box sx={{ display: "flex", gap: 1.5, alignItems: "flex-start" }}>
-
-        {/* Aria — active square card */}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+          gap: 1.5,
+        }}
+      >
+        {/* Aria — active card */}
         <Box
           sx={{
-            width: 160,
-            height: 160,
+            height: CARD_HEIGHT,
             bgcolor: "#1a1a1a",
-            border: "1px solid #2a2a2a",
-            borderRadius: "20px",        // ✅ rounder
+            border: "1px solid #22c55e",
+            borderRadius: "20px",
             p: 2,
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            flexShrink: 0,
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
             <Box
               sx={{
-                width: 7, height: 7,
+                width: 7,
+                height: 7,
                 borderRadius: "50%",
                 bgcolor: "#22c55e",
-                boxShadow: "0 0 6px #22c55e",
                 flexShrink: 0,
               }}
             />
@@ -48,34 +60,32 @@ export default function AgentPulse() {
           </Box>
 
           <Box>
-            <Typography sx={{ fontSize: 16, fontWeight: 700, color: "#fff", mb: 0.3 }}>
+            <Typography sx={{ fontSize: 15, fontWeight: 700, color: "#fff", mb: 0.3 }}>
               Aria
             </Typography>
-            <Typography sx={{ fontSize: 12, fontWeight: 500, color: "#e8e8e8", mb: 0.3 }}>
+            <Typography sx={{ fontSize: 12, color: "#aaa", mb: 0.3 }}>
               Processing decisions
             </Typography>
-            <Typography sx={{ fontSize: 12, color: "#444" }}>
+            <Typography sx={{ fontSize: 12, color: "#555" }}>
               4 min ago · 0 errors
             </Typography>
           </Box>
         </Box>
 
-        {/* Placeholder agent square cards */}
+        {/* Placeholder cards */}
         {AGENTS.map((agent) => (
           <Box
             key={agent.id}
             sx={{
-              width: 160,
-              height: 160,
+              height: CARD_HEIGHT,
               bgcolor: "#111",
               border: "1px dashed #222",
-              borderRadius: "20px",      // ✅ rounder
+              borderRadius: "20px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               gap: 0.5,
-              flexShrink: 0,
             }}
           >
             <Typography sx={{ fontSize: 13, color: "#444", textAlign: "center", px: 1 }}>

@@ -16,7 +16,9 @@ export default function CommandCenter() {
                     <GreetingBanner onReview={() => setView("decisions")} />
                     <AgentPulse />
                     <DecisionsSummary onOpenQueue={() => setView("decisions")} />
-                    <AriaActivityCard />
+                    <Box sx={{ width: "100%", overflow: "visible" }}>
+                        <AriaActivityCard />
+                    </Box>
                 </>
             )}
             {view === "decisions" && (

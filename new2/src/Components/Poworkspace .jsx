@@ -89,26 +89,26 @@ const recentActivities = [
 // ─── STATUS CONFIG ────────────────────────────────────────────────────────────
 
 const STATUS = {
-    draft:        { label: "Draft",        color: "#f5c842", bg: "rgba(245,200,66,0.08)",  border: "rgba(245,200,66,0.25)" },
-    approved:     { label: "Approved",     color: "#42b0f5", bg: "rgba(66,176,245,0.08)",  border: "rgba(66,176,245,0.25)" },
-    sent:         { label: "Sent 2d ago",  color: "#d966ff", bg: "rgba(217,102,255,0.08)", border: "rgba(217,102,255,0.25)" },
-    acknowledged: { label: "Acknowledged", color: "#4dff88", bg: "rgba(77,255,136,0.08)",  border: "rgba(77,255,136,0.25)" },
+    draft: { label: "Draft", color: "#f5c842", bg: "rgba(245,200,66,0.08)", border: "rgba(245,200,66,0.25)" },
+    approved: { label: "Approved", color: "#42b0f5", bg: "rgba(66,176,245,0.08)", border: "rgba(66,176,245,0.25)" },
+    sent: { label: "Sent 2d ago", color: "#d966ff", bg: "rgba(217,102,255,0.08)", border: "rgba(217,102,255,0.25)" },
+    acknowledged: { label: "Acknowledged", color: "#4dff88", bg: "rgba(77,255,136,0.08)", border: "rgba(77,255,136,0.25)" },
 };
 
 // ─── THEME TOKENS ─────────────────────────────────────────────────────────────
 
 const T = {
-    bg:       "#0a0a0a",
-    surface:  "#111111",
+    bg: "#0a0a0a",
+    surface: "#111111",
     surface2: "#161616",
-    border:   "#1e1e1e",
-    border2:  "#2a2a2a",
-    muted:    "#444444",
-    subtle:   "#666666",
-    dim:      "#999999",
-    text:     "#dddddd",
-    white:    "#ffffff",
-    mono:     "'JetBrains Mono', monospace",
+    border: "#1e1e1e",
+    border2: "#2a2a2a",
+    muted: "#444444",
+    subtle: "#666666",
+    dim: "#999999",
+    text: "#dddddd",
+    white: "#ffffff",
+    mono: "'JetBrains Mono', monospace",
     fs: { xs: 10, sm: 11, base: 13, md: 14, lg: 16, xl: 20, h1: 18 },
 };
 
@@ -214,7 +214,7 @@ function UnifiedFilterDropdown({ vendors, value, onChange }) {
                     animation: "dropIn 0.15s ease",
                     "@keyframes dropIn": {
                         from: { opacity: 0, transform: "translateY(-4px)" },
-                        to:   { opacity: 1, transform: "translateY(0)" },
+                        to: { opacity: 1, transform: "translateY(0)" },
                     },
                 }}>
                     {/* All option */}
@@ -274,7 +274,8 @@ function UnifiedFilterDropdown({ vendors, value, onChange }) {
                             PRODUCTS
                         </Typography>
                     </Box>
-                    <Box sx={{ maxHeight: 180, overflowY: "auto", pb: 1,
+                    <Box sx={{
+                        maxHeight: 180, overflowY: "auto", pb: 1,
                         "&::-webkit-scrollbar": { width: 4 },
                         "&::-webkit-scrollbar-track": { background: "transparent" },
                         "&::-webkit-scrollbar-thumb": { background: T.border2, borderRadius: 2 },
@@ -568,11 +569,45 @@ function SkuRow({ sku, onEdit }) {
                     <Typography sx={cellSx}>${sku.unit.toFixed(2)}</Typography>
                     <Typography sx={cellSx}>${sku.total.toLocaleString()}</Typography>
                     <Typography sx={{ ...cellSx, fontSize: 11, color: T.subtle }}>{sku.delivery}</Typography>
-                    <Button size="small" startIcon={<Edit sx={{ fontSize: "12px !important" }} />}
-                        onClick={() => { setVals({ qty: sku.qty, unit: sku.unit }); setEditing(true); }}
-                        sx={{ fontSize: 10, fontFamily: "'Inter', sans-serif", color: T.subtle, textTransform: "none", border: `1px solid ${T.border}`, borderRadius: 1, px: 1, minWidth: 0, "&:hover": { borderColor: "#444", color: T.text } }}>
-                        Edit
-                    </Button>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                        <Button
+                            size="small"
+                            startIcon={<Edit sx={{ fontSize: "10px !important" }} />}
+                            onClick={() => { setVals({ qty: sku.qty, unit: sku.unit }); setEditing(true); }}
+                            sx={{
+                                fontSize: 9,
+                                fontFamily: "'Inter', sans-serif",
+                                color: "#666",
+                                textTransform: "none",
+                                border: "1px solid #2a2a2a",
+                                borderRadius: 1,
+                                bgcolor: "#1a1a1a",
+                                px: 0.5,
+                                py: 0.2,
+                                minWidth: 0,
+                                width: "fit-content",
+                                lineHeight: 1,
+                                "& .MuiButton-startIcon": { margin: 0 },
+                                "&:hover": { bgcolor: "#1e2a1e", borderColor: "#a3e635", color: "#a3e635" },
+                            }}
+                        />
+
+                        <IconButton
+                            size="small"
+                            onClick={() => { /* your close handler */ }}
+                            sx={{
+                                color: "#666",
+                                bgcolor: "#1a1a1a",
+                                border: "1px solid #2a2a2a",
+                                borderRadius: 1,
+                                p: 0.3,
+                                "& .MuiSvgIcon-root": { fontSize: 10 },
+                                "&:hover": { bgcolor: "#2a1a1a", borderColor: "#ff6b6b", color: "#ff6b6b" },
+                            }}
+                        >
+                            <Close />
+                        </IconButton>
+                    </Box>
                 </>
             )}
         </Box>
@@ -648,7 +683,6 @@ function POCard({ po, vendor, onStatusChange, onAddSku, onEditSku }) {
                         </Box>
                         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", px: 2.5, py: 1.5, borderTop: `1px solid ${T.border}` }}>
                             <Stack direction="row" spacing={1}>
-                                <Button size="small" sx={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: T.subtle, textTransform: "none", border: `1px solid ${T.border2}`, borderRadius: 1.5, px: 1.5 }}>Edit lines</Button>
                                 <Button size="small" sx={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: T.subtle, textTransform: "none", border: `1px solid ${T.border2}`, borderRadius: 1.5, px: 1.5 }}>Save draft</Button>
                             </Stack>
                             <Stack direction="row" spacing={1}>
@@ -706,18 +740,18 @@ function FilterTab({ label, count, active, activeColor, onClick }) {
 
 export default function POWorkspace() {
     const [vendors, setVendors] = useState(initialVendors);
-    const [filter, setFilter]   = useState("all");
+    const [filter, setFilter] = useState("all");
     const [unifiedFilter, setUnifiedFilter] = useState({ type: "all" });
-    const [toast, setToast]     = useState(null);
+    const [toast, setToast] = useState(null);
 
     const showToast = msg => { setToast(msg); setTimeout(() => setToast(null), 2500); };
 
     const allPos = vendors.flatMap(v => v.pos.map(p => ({ ...p, vendor: v })));
 
     const counts = {
-        draft:        allPos.filter(p => p.status === "draft").length,
-        approved:     allPos.filter(p => p.status === "approved").length,
-        sent:         allPos.filter(p => p.status === "sent").length,
+        draft: allPos.filter(p => p.status === "draft").length,
+        approved: allPos.filter(p => p.status === "approved").length,
+        sent: allPos.filter(p => p.status === "sent").length,
         acknowledged: allPos.filter(p => p.status === "acknowledged").length,
     };
 
@@ -793,18 +827,18 @@ export default function POWorkspace() {
 
                 {/* Stats */}
                 <Grid container spacing={1.5} sx={{ mb: 3 }}>
-                    <Grid item xs={3}><StatCard label="POs ready"      value={allPos.length} /></Grid>
-                    <Grid item xs={3}><StatCard label="Total value"     value={`$${totalValue.toLocaleString()}`} accent /></Grid>
-                    <Grid item xs={3}><StatCard label="Vendors"         value={vendors.length} /></Grid>
+                    <Grid item xs={3}><StatCard label="POs ready" value={allPos.length} /></Grid>
+                    <Grid item xs={3}><StatCard label="Total value" value={`$${totalValue.toLocaleString()}`} accent /></Grid>
+                    <Grid item xs={3}><StatCard label="Vendors" value={vendors.length} /></Grid>
                     <Grid item xs={3}><StatCard label="Delivery window" value="Mar 14–18" /></Grid>
                 </Grid>
 
                 {/* Filter row */}
                 <Stack direction="row" alignItems="center" flexWrap="wrap" gap={1} sx={{ mb: 2.5 }}>
-                    <FilterTab label="All"          active={filter === "all"}          onClick={() => setFilter("all")} />
-                    <FilterTab label="Draft"        count={counts.draft}        activeColor="#f5c842" active={filter === "draft"}        onClick={() => setFilter("draft")} />
-                    <FilterTab label="Approved"     count={counts.approved}     activeColor="#42b0f5" active={filter === "approved"}     onClick={() => setFilter("approved")} />
-                    <FilterTab label="Sent"         count={counts.sent}         activeColor="#d966ff" active={filter === "sent"}         onClick={() => setFilter("sent")} />
+                    <FilterTab label="All" active={filter === "all"} onClick={() => setFilter("all")} />
+                    <FilterTab label="Draft" count={counts.draft} activeColor="#f5c842" active={filter === "draft"} onClick={() => setFilter("draft")} />
+                    <FilterTab label="Approved" count={counts.approved} activeColor="#42b0f5" active={filter === "approved"} onClick={() => setFilter("approved")} />
+                    <FilterTab label="Sent" count={counts.sent} activeColor="#d966ff" active={filter === "sent"} onClick={() => setFilter("sent")} />
                     <FilterTab label="Acknowledged" count={counts.acknowledged} activeColor="#4dff88" active={filter === "acknowledged"} onClick={() => setFilter("acknowledged")} />
 
                     <Box sx={{ flex: 1 }} />
